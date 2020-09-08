@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>mac 环境变量问题</title>
+	<meta charset="UTF-8">
+</head>
+<body>
+	<h3>mac切换php默认版本</h3>
+	<h5>
+		前提是电脑上要有需要切换到另外的php版本
+		vim ~/.bash_profile 新增export PATH=/Applications/MxSrvs/bin/php/bin:$PATH
+	</h5>
+	<h3>mac 把composer加入到环境变量</h3>
+	<h5>
+		前提是电脑上安装好composer了
+		Vim ~/.bash_profile  新增export PATH="~/.composer/vendor/bin:$PATH"
+	</h5>
+	<h5>以上两个环境变量都放到.bash_profile文件了，需要手动执行一下source ~/.bash_profile。
+		但这个操作，每次关闭终端，环境变量都会失效。下面操作会省去这一步</h5>
+	<h5>
+		修改~/.zshrc 没有的话就创建。写入source ~/.bash_profile 即可。电脑会自动执行.zshrc文件，即使关闭终端，再次启动也会有效
+	</h5>
+	<h3>mac 把laravel命令加入到环境变量</h3>
+	<h5>
+		前提是电脑上用composer安装好了laravel的安装程序了
+		1, nano ~/.bashrc <br>
+		2, export PATH="~/.composer/vendor/bin:$PATH" <br>
+		3, vim ~/.zshrc 新增source ~/.bashrc<br>
+	</h5>
+</body>
+</html>
