@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>macOs下nginx配置问题</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h5>
+    安装nginx。brew install nginx
+    安装好之后，打开localhost:8080，显示Welcome to nginx!
+
+    welcome to nginx 的页面是index.html，项目目录在/usr/local/var/www
+    如果要编译php文件的话，会报错。这时候就是nginx的配置中，有关php-fpm没有配置好
+
+    nginx.conf 配置：
+    位置：/usr/local/etc/nginx/
+    如果没有nginx.conf文件，则cp nginx.conf.default nginx.conf
+
+    location ~ \.php$ {
+    root           /usr/local/var/www;
+    fastcgi_pass   127.0.0.1:9000;
+    fastcgi_index  index.php;
+    fastcgi_param  SCRIPT_FILENAME /usr/local/var/www/$fastcgi_script_name;
+    include        fastcgi_params;
+    }
+
+    root是项目目录
+    fastcgi_pass 里的9000是php-fpm运行端口
+    fastcgi_param 里的/usr/local/var/www/ 是项目目录
+
+    修改好之后，重启nginx : nginx -s reload。重启php-fpm ：sudo killall php-fpm / sudo php-fpm
+
+    session_start() open failed Permission denied (13)错误
+
+    修改php.ini文件，中的session.save_path 到自己指定目录。然后给777权限
+
+    最后，发现larval的路由无效。只有“/”可以访问。还是nginx的配置问题。
+
+    上述修改location ~ \.php$  —> location ~ \.php(.*)$ 即可。之前的意思是，nginx只识别.php结尾的路由
+</h5>
+</body>
+</html>
